@@ -137,21 +137,20 @@ function ProfilePhoto() {
         className="relative w-72 h-72 sm:w-80 sm:h-80 lg:w-[26rem] lg:h-[26rem] rounded-full border-4 border-white shadow-blue-lg overflow-hidden flex flex-col items-center justify-center"
         style={{ background: 'linear-gradient(135deg, #eff6ff 0%, #dbeafe 50%, #bfdbfe 100%)' }}
       >
-        {/* Photo placeholder — replace src with actual photo */}
+        {/* Profile Photo */}
         <img
-          src="/profile-photo.jpg"
+          src="/profilephoto.png"
           alt="Shubham S"
-          className="w-full h-full object-cover object-top"
+          className="w-full h-full object-cover object-top relative z-10"
           onError={(e) => {
             (e.currentTarget as HTMLImageElement).style.display = 'none';
-            const fallback = e.currentTarget.nextElementSibling as HTMLElement;
+            const fallback = document.getElementById('photo-fallback');
             if (fallback) fallback.style.display = 'flex';
           }}
         />
-        {/* Fallback placeholder */}
+        {/* Fallback placeholder (shown only if image fails to load) */}
         <div
-          className="absolute inset-0 flex-col items-center justify-center"
-          style={{ display: 'flex' }}
+          className="absolute inset-0 flex-col items-center justify-center hidden"
           id="photo-fallback"
         >
           <motion.div
@@ -162,8 +161,7 @@ function ProfilePhoto() {
           >
             S
           </motion.div>
-          <span className="text-slate-600 text-sm font-semibold">Your Photo</span>
-          <span className="text-blue-400 text-xs mt-1 text-center px-4">Replace with → public/profile-photo.jpg</span>
+          <span className="text-slate-600 text-sm font-semibold">Shubham S</span>
         </div>
 
         {/* Overlay shimmer at bottom */}
