@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { motion, useInView, type Variants } from 'framer-motion';
 import {
   FaJava, FaPython, FaHtml5, FaCss3Alt, FaReact,
   FaNodeJs, FaGitAlt, FaGithub, FaDatabase,
@@ -95,14 +95,14 @@ const softSkills = [
   { label: 'Time Management', icon: '⏰' },
 ];
 
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: {},
   visible: { transition: { staggerChildren: 0.06 } },
 };
 
-const cardVariants = {
+const cardVariants: Variants = {
   hidden: { opacity: 0, y: 20, scale: 0.95 },
-  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.4, ease: 'easeOut' } },
+  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.4 } },
 };
 
 function SkillBadge({ name, Icon, color }: { name: string; Icon: React.ElementType; color: string }) {

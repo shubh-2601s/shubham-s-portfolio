@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { motion, useInView, type Variants } from 'framer-motion';
 import { personalInfo, stats } from '../data/resumeData';
 
 function AnimatedCounter({ value, suffix = '' }: { value: string; suffix: string }) {
@@ -29,14 +29,14 @@ function AnimatedCounter({ value, suffix = '' }: { value: string; suffix: string
   return <span ref={ref}>{isDecimal ? count.toFixed(2) : count}{suffix}</span>;
 }
 
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: {},
   visible: { transition: { staggerChildren: 0.1 } },
 };
 
-const itemVariants = {
+const itemVariants: Variants = {
   hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
 };
 
 export default function About() {

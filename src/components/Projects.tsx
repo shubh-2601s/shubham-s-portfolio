@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
 import { motion, useInView, useMotionValue, useSpring, useTransform, AnimatePresence } from 'framer-motion';
-import { ExternalLink, Star, Code2, Sparkles, Filter, ChevronRight } from 'lucide-react';
+import { ExternalLink, Star, Code2, Sparkles } from 'lucide-react';
 import { FaGithub } from 'react-icons/fa';
 import { projects } from '../data/resumeData';
 
