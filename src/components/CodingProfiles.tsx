@@ -20,11 +20,13 @@ export default function CodingProfiles() {
       id="profiles"
       ref={sectionRef}
       className="py-24 relative overflow-hidden"
-      style={{ background: '#F8FAFC' }}
+      style={{ background: 'var(--bg-primary)' }}
     >
-      <div className="absolute inset-0 dot-pattern opacity-30 pointer-events-none" />
+      <div className="absolute inset-0 dot-pattern opacity-20 pointer-events-none" />
+      <div className="absolute top-1/4 left-10 w-80 h-80 rounded-full pointer-events-none"
+        style={{ background: 'radial-gradient(circle, rgba(248,159,27,0.04), transparent)', filter: 'blur(60px)' }} />
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -36,6 +38,7 @@ export default function CodingProfiles() {
           <h2 className="section-title mt-2">
             Find Me <span className="text-gradient">Online</span>
           </h2>
+          <div className="section-laser-divider" />
           <p className="section-subtitle mx-auto text-center">
             My presence across the developer ecosystem — projects, contributions, problem-solving, and professional networking.
           </p>
@@ -51,20 +54,36 @@ export default function CodingProfiles() {
                 animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
                 transition={{ duration: 0.5, delay: idx * 0.12 }}
                 whileHover={{ y: -6 }}
-                className="p-6 rounded-2xl bg-white border border-slate-200/60 shadow-sm hover:shadow-blue-lg transition-all duration-300 group"
+                className="electric-card-glow relative overflow-hidden p-6 rounded-2xl transition-all duration-300 group"
+                style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}
               >
+                {/* Top Electric Laser Line */}
+                <div
+                  className="absolute top-0 left-0 right-0 h-[2px] overflow-hidden rounded-t-2xl"
+                  style={{
+                    background: `linear-gradient(90deg, transparent, ${profile.color}, #ffffff, ${profile.color}, transparent)`,
+                    boxShadow: `0 0 14px ${profile.color}`,
+                  }}
+                />
+
                 {/* Profile header */}
                 <div className="flex items-center justify-between mb-6">
                   <div className="flex items-center gap-3">
                     <div
-                      className="w-12 h-12 rounded-xl flex items-center justify-center text-white shadow-sm"
-                      style={{ background: profile.color }}
+                      className="w-12 h-12 rounded-xl flex items-center justify-center text-white shadow-sm relative"
+                      style={{
+                        background: profile.color,
+                        boxShadow: `0 0 16px ${profile.color}40`,
+                      }}
                     >
                       <Icon size={22} />
                     </div>
                     <div>
-                      <h3 className="font-black text-slate-900 text-base">{profile.name}</h3>
-                      <p className="text-slate-400 text-xs">@{profile.username}</p>
+                      <h3 className="font-black text-base" style={{ color: 'var(--text-primary)' }}>{profile.name}</h3>
+                      <div className="flex items-center gap-1.5 mt-0.5">
+                        <span className="w-1.5 h-1.5 rounded-full animate-ping pointer-events-none" style={{ background: profile.color }} />
+                        <p className="text-xs" style={{ color: 'var(--text-muted)' }}>@{profile.username}</p>
+                      </div>
                     </div>
                   </div>
                   <motion.a
@@ -88,8 +107,8 @@ export default function CodingProfiles() {
                       className="text-center p-3 rounded-xl"
                       style={{ background: `${profile.color}08` }}
                     >
-                      <div className="font-black text-slate-900 text-base">{stat.value}</div>
-                      <div className="text-xs text-slate-500 leading-tight mt-0.5">{stat.label}</div>
+                      <div className="font-black text-base" style={{ color: 'var(--text-primary)' }}>{stat.value}</div>
+                      <div className="text-xs leading-tight mt-0.5" style={{ color: 'var(--text-muted)' }}>{stat.label}</div>
                     </div>
                   ))}
                 </div>

@@ -11,9 +11,14 @@ export default function Certifications() {
     <section
       id="certifications"
       ref={sectionRef}
-      className="py-24 bg-white relative overflow-hidden"
+      className="py-24 relative overflow-hidden"
+      style={{ background: 'var(--bg-secondary)' }}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="absolute inset-0 dot-pattern opacity-20 pointer-events-none" />
+      <div className="absolute bottom-0 left-1/4 w-80 h-80 rounded-full pointer-events-none"
+        style={{ background: 'radial-gradient(circle, rgba(6,214,160,0.05), transparent)', filter: 'blur(60px)' }} />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -23,8 +28,9 @@ export default function Certifications() {
         >
           <div className="section-tag inline-flex mx-auto">📜 Certifications</div>
           <h2 className="section-title mt-2">
-            Licenses & <span className="text-gradient">Certifications</span>
+            Licenses &amp; <span className="text-gradient">Certifications</span>
           </h2>
+          <div className="section-laser-divider" />
           <p className="section-subtitle mx-auto text-center">
             Professional certifications from industry-leading organizations — validating skills in AI, Data Analytics, and Software Development.
           </p>
@@ -38,30 +44,57 @@ export default function Certifications() {
               animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
               transition={{ duration: 0.5, delay: idx * 0.08 }}
               whileHover={{ y: -5 }}
-              className="relative p-6 rounded-2xl bg-white border border-slate-200/60 shadow-sm overflow-hidden group card-hover"
+              className="relative p-6 rounded-2xl overflow-hidden group card-hover"
+              style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}
             >
-              {/* Left colored border */}
+              {/* Top Electric Laser Line */}
               <div
-                className="absolute left-0 top-4 bottom-4 w-1 rounded-r-full"
-                style={{ background: cert.color }}
+                className="absolute top-0 left-0 right-0 h-[2px] overflow-hidden"
+                style={{
+                  background: `linear-gradient(90deg, transparent, ${cert.color}, #ffffff, ${cert.color}, transparent)`,
+                  boxShadow: `0 0 12px ${cert.color}`,
+                }}
+              />
+
+              {/* Left Electric Laser Strip */}
+              <div
+                className="absolute left-0 top-3 bottom-3 w-[3px] rounded-r-full overflow-hidden"
+                style={{
+                  background: `linear-gradient(to bottom, transparent, ${cert.color}, #ffffff, ${cert.color}, transparent)`,
+                  boxShadow: `0 0 14px ${cert.color}`,
+                }}
+              />
+
+              {/* Hover glow */}
+              <div
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                style={{ background: `radial-gradient(circle at 10% 50%, ${cert.color}10 0%, transparent 60%)` }}
               />
 
               {/* Icon */}
               <div
-                className="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl mb-4 shadow-sm"
-                style={{ background: `${cert.color}15` }}
+                className="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl mb-4 relative"
+                style={{
+                  background: `${cert.color}15`,
+                  border: `1px solid ${cert.color}35`,
+                  boxShadow: `0 0 16px ${cert.color}25`,
+                }}
               >
+                <span
+                  className="w-2 h-2 rounded-full absolute -top-1 -right-1 animate-ping pointer-events-none"
+                  style={{ background: cert.color }}
+                />
                 {cert.icon}
               </div>
 
-              <h3 className="font-bold text-slate-900 text-sm leading-snug mb-2">
+              <h3 className="font-bold text-sm leading-snug mb-2" style={{ color: 'var(--text-primary)' }}>
                 {cert.name}
               </h3>
 
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-xs font-bold" style={{ color: cert.color }}>{cert.org}</p>
-                  <p className="text-xs text-slate-400 mt-0.5">{cert.date}</p>
+                  <p className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>{cert.date}</p>
                 </div>
                 {cert.credentialLink ? (
                   <a

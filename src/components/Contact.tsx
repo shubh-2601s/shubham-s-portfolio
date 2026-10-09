@@ -10,7 +10,7 @@ const contactInfo = [
     label: 'Email',
     value: personalInfo.email,
     href: `mailto:${personalInfo.email}`,
-    color: '#2563eb',
+    color: '#06d6a0',
   },
   {
     icon: Phone,
@@ -23,7 +23,7 @@ const contactInfo = [
     icon: MapPin,
     label: 'Location',
     value: personalInfo.location,
-    href: null,
+    href: null as string | null,
     color: '#7c3aed',
   },
   {
@@ -31,7 +31,7 @@ const contactInfo = [
     label: 'GitHub',
     value: 'shubh-2601s',
     href: personalInfo.github,
-    color: '#0f172a',
+    color: '#e8e8f0',
   },
   {
     icon: FaLinkedin,
@@ -43,6 +43,18 @@ const contactInfo = [
 ];
 
 type FormState = 'idle' | 'loading' | 'success' | 'error';
+
+const inputStyle = {
+  width: '100%',
+  padding: '0.75rem 1rem',
+  borderRadius: '0.75rem',
+  background: 'var(--bg-elevated)',
+  color: 'var(--text-primary)',
+  fontSize: '0.875rem',
+  border: '1px solid var(--border-subtle)',
+  outline: 'none',
+  transition: 'border-color 0.2s ease',
+} as const;
 
 export default function Contact() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -57,7 +69,6 @@ export default function Contact() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormState('loading');
-    // Simulate form submission (replace with EmailJS when configured)
     await new Promise(resolve => setTimeout(resolve, 1500));
     setFormState('success');
     setForm({ name: '', email: '', subject: '', message: '' });
@@ -68,12 +79,14 @@ export default function Contact() {
     <section
       id="contact"
       ref={sectionRef}
-      className="py-24 bg-white relative overflow-hidden"
+      className="py-24 relative overflow-hidden"
+      style={{ background: 'var(--bg-primary)' }}
     >
-      <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full opacity-5 pointer-events-none"
-        style={{ background: 'radial-gradient(circle, #2563eb, transparent)', transform: 'translate(30%, 30%)' }} />
+      <div className="absolute inset-0 dot-pattern opacity-20 pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full pointer-events-none"
+        style={{ background: 'radial-gradient(circle, rgba(6,214,160,0.05), transparent)', transform: 'translate(30%, 30%)', filter: 'blur(60px)' }} />
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -85,6 +98,7 @@ export default function Contact() {
           <h2 className="section-title mt-2">
             Let's Build Something <span className="text-gradient">Amazing</span>
           </h2>
+          <div className="section-laser-divider" />
           <p className="section-subtitle mx-auto text-center">
             Whether it's a project collaboration, an internship opportunity, or just a chat about technology — I'd love to connect!
           </p>
@@ -99,16 +113,27 @@ export default function Contact() {
           >
             {/* Hero card */}
             <div
-              className="p-8 rounded-2xl text-white mb-8 relative overflow-hidden"
-              style={{ background: 'linear-gradient(135deg, #1e3a8a, #2563eb, #3b82f6)' }}
+              className="p-8 rounded-2xl mb-8 relative overflow-hidden"
+              style={{
+                background: 'linear-gradient(135deg, var(--bg-elevated), var(--bg-card))',
+                border: '1px solid var(--border-accent)',
+              }}
             >
-              <div className="absolute inset-0 dot-pattern opacity-20" />
+              {/* Electric Laser Top Line */}
+              <div
+                className="absolute top-0 left-0 right-0 h-[2px] overflow-hidden"
+                style={{
+                  background: 'linear-gradient(90deg, transparent, #06d6a0, #38bdf8, #ffffff, #06d6a0, transparent)',
+                  boxShadow: '0 0 14px rgba(6, 214, 160, 0.9)',
+                }}
+              />
+              <div className="absolute inset-0 dot-pattern opacity-20 pointer-events-none" />
               <div className="relative z-10">
                 <div className="text-4xl mb-4">👋</div>
-                <h3 className="text-2xl font-black mb-3" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                <h3 className="text-2xl font-black mb-3" style={{ fontFamily: 'Outfit, sans-serif', color: 'var(--text-primary)' }}>
                   Open to Opportunities!
                 </h3>
-                <p className="text-blue-100 text-sm leading-relaxed">
+                <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
                   I'm actively looking for internships, full-time roles, and project collaborations in Software Engineering, Full Stack Development, and AI/ML.
                   Feel free to reach out — let's create something extraordinary together.
                 </p>
@@ -121,27 +146,37 @@ export default function Contact() {
                 <motion.div
                   key={label}
                   whileHover={{ x: 4 }}
-                  className="flex items-center gap-4 p-4 rounded-xl bg-slate-50 border border-slate-200/60 hover:border-blue-200 hover:bg-blue-50/30 transition-all duration-200 group"
+                  className="flex items-center gap-4 p-4 rounded-xl transition-all duration-200 group"
+                  style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}
                 >
                   <div
-                    className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 shadow-sm"
-                    style={{ background: `${color}15`, color }}
+                    className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 relative"
+                    style={{
+                      background: `${color}15`,
+                      color,
+                      border: `1px solid ${color}35`,
+                      boxShadow: `0 0 12px ${color}20`,
+                    }}
                   >
+                    <span className="w-1.5 h-1.5 rounded-full absolute -top-1 -right-1 animate-ping pointer-events-none" style={{ background: color }} />
                     <Icon size={18} />
                   </div>
                   <div className="min-w-0">
-                    <div className="text-xs text-slate-400 font-medium uppercase tracking-wide">{label}</div>
+                    <div className="text-xs font-medium uppercase tracking-wide" style={{ color: 'var(--text-muted)' }}>{label}</div>
                     {href ? (
                       <a
                         href={href}
                         target={href.startsWith('http') ? '_blank' : undefined}
                         rel="noopener noreferrer"
-                        className="text-sm font-semibold text-slate-800 group-hover:text-blue-600 transition-colors truncate block"
+                        className="text-sm font-semibold truncate block transition-colors"
+                        style={{ color: 'var(--text-primary)' }}
+                        onMouseEnter={e => (e.currentTarget.style.color = color)}
+                        onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-primary)')}
                       >
                         {value}
                       </a>
                     ) : (
-                      <span className="text-sm font-semibold text-slate-800">{value}</span>
+                      <span className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>{value}</span>
                     )}
                   </div>
                 </motion.div>
@@ -155,8 +190,16 @@ export default function Contact() {
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.2 }}
           >
-            <div className="p-8 rounded-2xl bg-white border border-slate-200/60 shadow-sm">
-              <h3 className="font-black text-slate-900 text-xl mb-6" style={{ fontFamily: 'Outfit, sans-serif' }}>
+            <div className="electric-card-glow relative overflow-hidden p-8 rounded-2xl" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+              {/* Form Electric Laser Top Bar */}
+              <div
+                className="absolute top-0 left-0 right-0 h-[2px] overflow-hidden"
+                style={{
+                  background: 'linear-gradient(90deg, transparent, #06d6a0, #38bdf8, #ffffff, #06d6a0, transparent)',
+                  boxShadow: '0 0 14px rgba(6, 214, 160, 0.9)',
+                }}
+              />
+              <h3 className="font-black text-xl mb-6" style={{ fontFamily: 'Outfit, sans-serif', color: 'var(--text-primary)' }}>
                 Send a Message
               </h3>
 
@@ -164,9 +207,10 @@ export default function Contact() {
                 <motion.div
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="flex items-center gap-3 p-4 rounded-xl bg-green-50 border border-green-200 text-green-800 mb-6"
+                  className="flex items-center gap-3 p-4 rounded-xl mb-6"
+                  style={{ background: 'rgba(6,214,160,0.08)', border: '1px solid rgba(6,214,160,0.2)', color: 'var(--accent-primary)' }}
                 >
-                  <CheckCircle size={20} className="text-green-600 shrink-0" />
+                  <CheckCircle size={20} className="shrink-0" />
                   <span className="text-sm font-medium">Message sent! I'll get back to you shortly.</span>
                 </motion.div>
               )}
@@ -175,9 +219,10 @@ export default function Contact() {
                 <motion.div
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="flex items-center gap-3 p-4 rounded-xl bg-red-50 border border-red-200 text-red-800 mb-6"
+                  className="flex items-center gap-3 p-4 rounded-xl mb-6"
+                  style={{ background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.2)', color: '#ef4444' }}
                 >
-                  <AlertCircle size={20} className="text-red-600 shrink-0" />
+                  <AlertCircle size={20} className="shrink-0" />
                   <span className="text-sm font-medium">Failed to send. Please email me directly.</span>
                 </motion.div>
               )}
@@ -185,7 +230,7 @@ export default function Contact() {
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="name" className="block text-xs font-semibold text-slate-700 mb-1.5">Full Name *</label>
+                    <label htmlFor="name" className="block text-xs font-semibold mb-1.5" style={{ color: 'var(--text-secondary)' }}>Full Name *</label>
                     <input
                       id="name"
                       name="name"
@@ -194,11 +239,13 @@ export default function Contact() {
                       value={form.name}
                       onChange={handleChange}
                       placeholder="Your Name"
-                      className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-900 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400 transition-all"
+                      style={{ ...inputStyle, caretColor: 'var(--accent-primary)' }}
+                      onFocus={e => (e.currentTarget.style.borderColor = 'rgba(6,214,160,0.4)')}
+                      onBlur={e => (e.currentTarget.style.borderColor = 'var(--border-subtle)')}
                     />
                   </div>
                   <div>
-                    <label htmlFor="email" className="block text-xs font-semibold text-slate-700 mb-1.5">Email *</label>
+                    <label htmlFor="email" className="block text-xs font-semibold mb-1.5" style={{ color: 'var(--text-secondary)' }}>Email *</label>
                     <input
                       id="email"
                       name="email"
@@ -207,13 +254,15 @@ export default function Contact() {
                       value={form.email}
                       onChange={handleChange}
                       placeholder="your@email.com"
-                      className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-900 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400 transition-all"
+                      style={{ ...inputStyle, caretColor: 'var(--accent-primary)' }}
+                      onFocus={e => (e.currentTarget.style.borderColor = 'rgba(6,214,160,0.4)')}
+                      onBlur={e => (e.currentTarget.style.borderColor = 'var(--border-subtle)')}
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label htmlFor="subject" className="block text-xs font-semibold text-slate-700 mb-1.5">Subject *</label>
+                  <label htmlFor="subject" className="block text-xs font-semibold mb-1.5" style={{ color: 'var(--text-secondary)' }}>Subject *</label>
                   <input
                     id="subject"
                     name="subject"
@@ -222,12 +271,14 @@ export default function Contact() {
                     value={form.subject}
                     onChange={handleChange}
                     placeholder="e.g., Internship Opportunity / Project Collaboration"
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-900 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400 transition-all"
+                    style={{ ...inputStyle, caretColor: 'var(--accent-primary)' }}
+                    onFocus={e => (e.currentTarget.style.borderColor = 'rgba(6,214,160,0.4)')}
+                    onBlur={e => (e.currentTarget.style.borderColor = 'var(--border-subtle)')}
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="message" className="block text-xs font-semibold text-slate-700 mb-1.5">Message *</label>
+                  <label htmlFor="message" className="block text-xs font-semibold mb-1.5" style={{ color: 'var(--text-secondary)' }}>Message *</label>
                   <textarea
                     id="message"
                     name="message"
@@ -236,7 +287,9 @@ export default function Contact() {
                     value={form.message}
                     onChange={handleChange}
                     placeholder="Tell me about the opportunity or what you'd like to collaborate on..."
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-900 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400 transition-all resize-none"
+                    style={{ ...inputStyle, resize: 'none', caretColor: 'var(--accent-primary)' }}
+                    onFocus={e => (e.currentTarget.style.borderColor = 'rgba(6,214,160,0.4)')}
+                    onBlur={e => (e.currentTarget.style.borderColor = 'var(--border-subtle)')}
                   />
                 </div>
 
@@ -249,7 +302,7 @@ export default function Contact() {
                 >
                   {formState === 'loading' ? (
                     <>
-                      <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      <span className="w-4 h-4 border-2 border-current/30 border-t-current rounded-full animate-spin" />
                       Sending...
                     </>
                   ) : (

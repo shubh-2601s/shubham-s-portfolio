@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, useInView, type Variants } from 'framer-motion';
+import { Terminal, User } from 'lucide-react';
 import { personalInfo, stats } from '../data/resumeData';
+import HackerTerminal from './HackerTerminal';
 
 function AnimatedCounter({ value, suffix = '' }: { value: string; suffix: string }) {
   const [count, setCount] = useState(0);
@@ -40,16 +42,18 @@ const itemVariants: Variants = {
 };
 
 export default function About() {
+  const [viewMode, setViewMode] = useState<'terminal' | 'card'>('terminal');
   const sectionRef = useRef<HTMLElement>(null);
   const inView = useInView(sectionRef, { once: true, margin: '-80px' });
 
   return (
-    <section id="about" ref={sectionRef} className="py-24 bg-white relative overflow-hidden">
+    <section id="about" ref={sectionRef} className="py-24 relative overflow-hidden" style={{ background: 'var(--bg-secondary)' }}>
       {/* Decoration */}
-      <div className="absolute top-0 right-0 w-96 h-96 rounded-full opacity-5 pointer-events-none"
-        style={{ background: 'radial-gradient(circle, #2563eb, transparent)', transform: 'translate(30%, -30%)' }} />
+      <div className="absolute top-0 right-0 w-96 h-96 rounded-full pointer-events-none"
+        style={{ background: 'radial-gradient(circle, rgba(6,214,160,0.05), transparent)', transform: 'translate(30%, -30%)', filter: 'blur(60px)' }} />
+      <div className="absolute inset-0 dot-pattern opacity-20 pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* ── Header ── */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -59,6 +63,7 @@ export default function About() {
         >
           <div className="section-tag inline-flex mx-auto">👤 About Me</div>
           <h2 className="section-title mt-2">Who I <span className="text-gradient">Am</span></h2>
+          <div className="section-laser-divider" />
           <p className="section-subtitle mx-auto text-center">
             A passionate Software Engineer from Chennai with a love for building scalable systems and intelligent applications.
           </p>
@@ -73,24 +78,24 @@ export default function About() {
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.1 }}
           >
-            <div className="space-y-5 text-slate-600 text-base leading-relaxed mb-8">
+            <div className="space-y-5 text-base leading-relaxed mb-8" style={{ color: 'var(--text-secondary)' }}>
               <p>
-                I'm <strong className="text-slate-900">Shubham S</strong>, a B.Tech Computer Science Engineering student at{' '}
-                <strong className="text-blue-600">Vel Tech R&D Institute of Science and Technology</strong>, Chennai (Class of 2027),
-                maintaining a stellar CGPA of <strong className="text-blue-600">9.79</strong>.
+                I'm <strong style={{ color: 'var(--text-primary)' }}>Shubham S</strong>, a B.Tech Computer Science Engineering student at{' '}
+                <strong style={{ color: 'var(--accent-primary)' }}>Vel Tech R&D Institute of Science and Technology</strong>, Chennai (Class of 2027),
+                maintaining a stellar CGPA of <strong style={{ color: 'var(--accent-primary)' }}>9.79</strong>.
               </p>
               <p>
-                With a strong foundation in <strong className="text-slate-900">Java, Data Structures & Algorithms, OOP, DBMS, and Operating Systems</strong>,
+                With a strong foundation in <strong style={{ color: 'var(--text-primary)' }}>Java, Data Structures &amp; Algorithms, OOP, DBMS, and Operating Systems</strong>,
                 I specialize in Full Stack Web Development using the MERN stack and Spring Boot. I've gained hands-on experience as an{' '}
-                <strong className="text-slate-900">AI Engineer Intern at Siter Academy, Norway</strong>, building production-ready AI solutions.
+                <strong style={{ color: 'var(--text-primary)' }}>AI Engineer Intern at Siter Academy, Norway</strong>, building production-ready AI solutions.
               </p>
               <p>
-                I'm deeply passionate about <strong className="text-slate-900">Artificial Intelligence and Machine Learning</strong>, having built intelligent
+                I'm deeply passionate about <strong style={{ color: 'var(--text-primary)' }}>Artificial Intelligence and Machine Learning</strong>, having built intelligent
                 applications that won national-level hackathons. My work spans static code security analyzers to smart agriculture AI agents.
               </p>
               <p>
-                Beyond code, I'm an active <strong className="text-blue-600">IEEE member</strong>, a patent holder with{' '}
-                <strong className="text-slate-900">4 published patents</strong>, and a consistent hackathon achiever with multiple national wins.
+                Beyond code, I'm an active <strong style={{ color: 'var(--accent-primary)' }}>IEEE member</strong>, a co-inventor on{' '}
+                <strong style={{ color: 'var(--text-primary)' }}>4 published patent applications</strong>, and a consistent hackathon achiever with multiple national wins.
               </p>
             </div>
 
@@ -105,71 +110,114 @@ export default function About() {
                 { label: 'Hobbies', value: 'Chess, Sports, Editing', icon: '♟️' },
               ].map((item) => (
                 <div key={item.label}
-                  className="flex items-start gap-3 p-3 rounded-xl hover:bg-blue-50/50 transition-colors group cursor-default">
+                  className="electric-card-glow flex items-start gap-3 p-3.5 rounded-xl transition-all duration-300 group cursor-default relative overflow-hidden"
+                  style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+                  {/* Subtle hover laser line */}
+                  <div
+                    className="absolute top-0 left-0 right-0 h-[1.5px] opacity-0 group-hover:opacity-100 transition-opacity"
+                    style={{
+                      background: 'linear-gradient(90deg, transparent, #06d6a0, #38bdf8, transparent)',
+                      boxShadow: '0 0 10px #06d6a0',
+                    }}
+                  />
                   <span className="text-lg shrink-0 mt-0.5">{item.icon}</span>
                   <div>
-                    <div className="text-xs text-slate-400 font-medium uppercase tracking-wide">{item.label}</div>
-                    <div className="text-sm font-semibold text-slate-800 group-hover:text-blue-700 transition-colors">{item.value}</div>
+                    <div className="text-xs font-medium uppercase tracking-wide" style={{ color: 'var(--text-muted)' }}>{item.label}</div>
+                    <div className="text-sm font-semibold transition-colors group-hover:text-white" style={{ color: 'var(--text-primary)' }}>{item.value}</div>
                   </div>
                 </div>
               ))}
             </div>
           </motion.div>
 
-          {/* Right — Illustration + Cards */}
+          {/* Right — Interactive Terminal or Card */}
           <motion.div
             initial={{ opacity: 0, x: 40 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.2 }}
-            className="space-y-5"
+            className="space-y-4"
           >
-            {/* About illustration */}
-            <div className="relative rounded-2xl overflow-hidden border border-blue-100 shadow-blue" style={{ background: 'linear-gradient(135deg, #eff6ff, #dbeafe)' }}>
-              <img
-                src="/images/about_illustration.png"
-                alt="Software Engineer Illustration"
-                className="w-full h-48 object-cover"
-                loading="lazy"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-blue-50/60 to-transparent pointer-events-none" />
-            </div>
-
-            {/* Career objective card */}
-            <div className="p-7 rounded-2xl glass-blue border border-blue-100 shadow-blue relative overflow-hidden">
-              <div className="absolute top-0 right-0 text-9xl font-black opacity-5 text-blue-600 select-none leading-none">"</div>
-              <p className="text-slate-700 italic text-base leading-relaxed relative z-10">
-                "Passionate about solving complex problems, building efficient applications, and continuously learning modern technologies — with a growing interest in AI and scalable software engineering."
-              </p>
-              <div className="mt-4 flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full flex items-center justify-center text-white font-bold text-sm"
-                  style={{ background: 'linear-gradient(135deg, #2563eb, #60a5fa)' }}>S</div>
-                <div>
-                  <div className="text-sm font-semibold text-slate-800">Shubham S</div>
-                  <div className="text-xs text-blue-600">Software Engineer</div>
-                </div>
+            {/* View Switcher Bar */}
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2 text-xs font-mono">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping inline-block" />
+                <span className="text-emerald-400 font-bold">DEV CONSOLE</span>
+              </div>
+              <div
+                className="p-1 rounded-xl glass flex items-center gap-1 shadow-glow"
+                style={{ border: '1px solid var(--border-subtle)' }}
+              >
+                <button
+                  type="button"
+                  onClick={() => setViewMode('terminal')}
+                  className={`flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-medium transition-all ${
+                    viewMode === 'terminal'
+                      ? 'bg-gradient-to-r from-emerald-400 to-cyan-400 text-gray-950 font-bold shadow-md'
+                      : 'text-gray-400 hover:text-white'
+                  }`}
+                >
+                  <Terminal size={13} />
+                  <span>Interactive Shell</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setViewMode('card')}
+                  className={`flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-medium transition-all ${
+                    viewMode === 'card'
+                      ? 'bg-gradient-to-r from-emerald-400 to-cyan-400 text-gray-950 font-bold shadow-md'
+                      : 'text-gray-400 hover:text-white'
+                  }`}
+                >
+                  <User size={13} />
+                  <span>Summary</span>
+                </button>
               </div>
             </div>
 
-            {/* Languages & Interests row */}
-            <div className="grid grid-cols-2 gap-4">
-              <div className="p-5 rounded-2xl glass border border-slate-200/60 shadow-sm">
-                <h4 className="font-semibold text-slate-800 mb-3 text-sm flex items-center gap-2">🌍 Languages</h4>
-                <div className="flex flex-wrap gap-1.5">
-                  {personalInfo.languages.map(lang => (
-                    <span key={lang} className="px-2.5 py-1 rounded-lg bg-blue-50 text-blue-700 text-xs font-medium border border-blue-100">{lang}</span>
-                  ))}
+            {/* Content Container */}
+            {viewMode === 'terminal' ? (
+              <HackerTerminal />
+            ) : (
+              <div className="space-y-5">
+                {/* Career objective card */}
+                <div className="p-7 rounded-2xl glass-accent relative overflow-hidden">
+                  <div className="absolute top-0 right-0 text-9xl font-black select-none leading-none" style={{ color: 'var(--accent-primary)', opacity: 0.05 }}>"</div>
+                  <p className="italic text-base leading-relaxed relative z-10" style={{ color: 'var(--text-secondary)' }}>
+                    "Passionate about solving complex problems, building efficient applications, and continuously learning modern technologies — with a growing interest in AI and scalable software engineering."
+                  </p>
+                  <div className="mt-4 flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm"
+                      style={{ background: 'linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))', color: '#0a0a0f' }}>S</div>
+                    <div>
+                      <div className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>Shubham S</div>
+                      <div className="text-xs" style={{ color: 'var(--accent-primary)' }}>Software Engineer</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Languages & Interests row */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="p-5 rounded-2xl" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+                    <h4 className="font-semibold mb-3 text-sm flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>🌍 Languages</h4>
+                    <div className="flex flex-wrap gap-1.5">
+                      {personalInfo.languages.map(lang => (
+                        <span key={lang} className="px-2.5 py-1 rounded-lg text-xs font-medium"
+                          style={{ background: 'rgba(6,214,160,0.08)', color: 'var(--accent-primary)', border: '1px solid rgba(6,214,160,0.15)' }}>{lang}</span>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="p-5 rounded-2xl" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+                    <h4 className="font-semibold mb-3 text-sm flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>💡 Interests</h4>
+                    <div className="flex flex-wrap gap-1.5">
+                      {personalInfo.interests.slice(0, 3).map(interest => (
+                        <span key={interest} className="px-2.5 py-1 rounded-lg text-xs font-medium"
+                          style={{ background: 'rgba(6,214,160,0.07)', color: 'var(--accent-primary)' }}>{interest}</span>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div className="p-5 rounded-2xl glass border border-slate-200/60 shadow-sm">
-                <h4 className="font-semibold text-slate-800 mb-3 text-sm flex items-center gap-2">💡 Interests</h4>
-                <div className="flex flex-wrap gap-1.5">
-                  {personalInfo.interests.slice(0, 3).map(interest => (
-                    <span key={interest} className="px-2.5 py-1 rounded-lg text-xs font-medium"
-                      style={{ background: 'rgba(37,99,235,0.07)', color: '#2563eb' }}>{interest}</span>
-                  ))}
-                </div>
-              </div>
-            </div>
+            )}
           </motion.div>
         </div>
 
@@ -184,14 +232,23 @@ export default function About() {
             <motion.div
               key={stat.label}
               variants={itemVariants}
-              whileHover={{ y: -6, scale: 1.03 }}
-              className="p-5 rounded-2xl glass border border-slate-200/60 shadow-sm text-center card-hover"
+              whileHover={{ y: -6, scale: 1.04, boxShadow: `0 0 20px ${stat.color}35` }}
+              className="p-5 rounded-2xl text-center card-hover relative overflow-hidden group"
+              style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}
             >
+              {/* Top Electric Laser Line */}
+              <div
+                className="absolute top-0 left-0 right-0 h-[2px] opacity-70 group-hover:opacity-100 transition-opacity"
+                style={{
+                  background: `linear-gradient(90deg, transparent, ${stat.color}, #ffffff, ${stat.color}, transparent)`,
+                  boxShadow: `0 0 10px ${stat.color}`,
+                }}
+              />
               <div className="text-3xl mb-2">{stat.icon}</div>
               <div className="text-2xl font-black" style={{ color: stat.color }}>
                 <AnimatedCounter value={stat.value} suffix={stat.suffix} />
               </div>
-              <div className="text-xs text-slate-500 font-medium mt-1">{stat.label}</div>
+              <div className="text-xs font-medium mt-1" style={{ color: 'var(--text-muted)' }}>{stat.label}</div>
             </motion.div>
           ))}
         </motion.div>
