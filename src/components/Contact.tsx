@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Mail, Phone, MapPin, Send, CheckCircle, AlertCircle } from 'lucide-react';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
+import emailjs from '@emailjs/browser';
 import { personalInfo } from '../data/resumeData';
 
 const contactInfo = [
@@ -60,6 +61,7 @@ export default function Contact() {
   const sectionRef = useRef<HTMLElement>(null);
   const inView = useInView(sectionRef, { once: true, margin: '-80px' });
   const [formState, setFormState] = useState<FormState>('idle');
+  const [errorMessage, setErrorMessage] = useState('');
   const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -69,10 +71,37 @@ export default function Contact() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormState('loading');
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    setFormState('success');
-    setForm({ name: '', email: '', subject: '', message: '' });
-    setTimeout(() => setFormState('idle'), 4000);
+    setErrorMessage('');
+
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID || 'service_p9aop1g';
+    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'template_h8pl7dm';
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || '7qcrvW5TN2VGgT9NB';
+
+    const templateParams = {
+      name: form.name,
+      from_name: form.name,
+      email: form.email,
+      from_email: form.email,
+      reply_to: form.email,
+      subject: form.subject,
+      message: form.message,
+    };
+
+    try {
+      await emailjs.send(serviceId, templateId, templateParams, publicKey);
+      setFormState('success');
+      setForm({ name: '', email: '', subject: '', message: '' });
+      setTimeout(() => setFormState('idle'), 5000);
+    } catch (err) {
+      console.error('EmailJS error:', err);
+      setErrorMessage(
+        err && typeof err === 'object' && 'text' in err && typeof (err as { text: unknown }).text === 'string'
+          ? (err as { text: string }).text
+          : 'Failed to send message. Please email me directly.'
+      );
+      setFormState('error');
+      setTimeout(() => setFormState('idle'), 6000);
+    }
   };
 
   return (
@@ -223,7 +252,7 @@ export default function Contact() {
                   style={{ background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.2)', color: '#ef4444' }}
                 >
                   <AlertCircle size={20} className="shrink-0" />
-                  <span className="text-sm font-medium">Failed to send. Please email me directly.</span>
+                  <span className="text-sm font-medium">{errorMessage || 'Failed to send. Please email me directly.'}</span>
                 </motion.div>
               )}
 
