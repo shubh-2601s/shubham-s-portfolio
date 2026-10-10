@@ -33,9 +33,19 @@ export default function HackerTerminal() {
 
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const terminalBodyRef = useRef<HTMLDivElement>(null);
+  const isFirstRender = useRef(true);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    // Prevent scrolling on initial page load so user starts at the top of the portfolio
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    // Only scroll the terminal container itself, NEVER the window
+    if (terminalBodyRef.current) {
+      terminalBodyRef.current.scrollTop = terminalBodyRef.current.scrollHeight;
+    }
   }, [history]);
 
   const triggerCelebration = () => {
@@ -318,7 +328,7 @@ export default function HackerTerminal() {
       </div>
 
       {/* Terminal Body */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-3 font-mono">
+      <div ref={terminalBodyRef} className="flex-1 overflow-y-auto p-4 space-y-3 font-mono">
         <AnimatePresence>
           {history.map((item, idx) => (
             <motion.div

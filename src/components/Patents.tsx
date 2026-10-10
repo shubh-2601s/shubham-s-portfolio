@@ -109,13 +109,14 @@ export default function Patents() {
           {patents.map((patent, idx) => {
             const isExpanded = expandedId === patent.id;
             const isCopied = copiedId === patent.id;
+            const isLeft = idx % 2 === 0;
 
             return (
               <motion.div
                 key={patent.id}
-                initial={{ opacity: 0, y: 30 }}
-                animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: idx * 0.1 }}
+                initial={{ opacity: 0, x: isLeft ? -70 : 70 }}
+                animate={inView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.6, delay: idx * 0.1, ease: 'easeOut' }}
                 className="relative rounded-2xl p-6 flex flex-col gap-4 group transition-all duration-300"
                 style={{
                   background: 'var(--bg-card)',

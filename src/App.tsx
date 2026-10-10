@@ -11,8 +11,9 @@ import Education from './components/Education';
 import Certifications from './components/Certifications';
 import CodingProfiles from './components/CodingProfiles';
 import Contact from './components/Contact';
-import Footer from './components/Footer';
 import Patents from './components/Patents';
+import Footer from './components/Footer';
+import DualSlidingMarquee from './components/DualSlidingMarquee';
 import CommandPalette from './components/CommandPalette';
 import FloatingDock from './components/FloatingDock';
 
@@ -100,8 +101,19 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [paletteOpen, setPaletteOpen] = useState(false);
 
+  // Guarantee page loads at the absolute top (hero) and disable automatic browser scroll jumping
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 1200);
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior });
+  }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior });
+    }, 1200);
     return () => clearTimeout(timer);
   }, []);
 
@@ -126,6 +138,7 @@ export default function App() {
       <Navbar onOpenPalette={() => setPaletteOpen(true)} />
       <main>
         <Hero />
+        <DualSlidingMarquee />
         <About />
         <Skills />
         <Projects />

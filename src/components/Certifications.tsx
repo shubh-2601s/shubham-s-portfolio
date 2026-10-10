@@ -37,16 +37,18 @@ export default function Certifications() {
         </motion.div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {certifications.map((cert, idx) => (
-            <motion.div
-              key={cert.id}
-              initial={{ opacity: 0, y: 30, scale: 0.96 }}
-              animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
-              transition={{ duration: 0.5, delay: idx * 0.08 }}
-              whileHover={{ y: -5 }}
-              className="relative p-6 rounded-2xl overflow-hidden group card-hover"
-              style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}
-            >
+          {certifications.map((cert, idx) => {
+            const isLeft = idx % 2 === 0;
+            return (
+              <motion.div
+                key={cert.id}
+                initial={{ opacity: 0, x: isLeft ? -50 : 50, scale: 0.96 }}
+                animate={inView ? { opacity: 1, x: 0, scale: 1 } : {}}
+                transition={{ duration: 0.55, delay: idx * 0.08, ease: 'easeOut' }}
+                whileHover={{ y: -5 }}
+                className="relative p-6 rounded-2xl overflow-hidden group card-hover"
+                style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}
+              >
               {/* Top Electric Laser Line */}
               <div
                 className="absolute top-0 left-0 right-0 h-[2px] overflow-hidden"
@@ -116,7 +118,8 @@ export default function Certifications() {
                 )}
               </div>
             </motion.div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

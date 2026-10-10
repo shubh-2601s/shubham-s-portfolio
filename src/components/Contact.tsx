@@ -107,9 +107,9 @@ export default function Contact() {
         <div className="grid lg:grid-cols-2 gap-12 items-start">
           {/* Left: Contact Info */}
           <motion.div
-            initial={{ opacity: 0, x: -40 }}
+            initial={{ opacity: 0, x: -60 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.7, delay: 0.1 }}
+            transition={{ duration: 0.75, delay: 0.1, ease: 'easeOut' }}
           >
             {/* Hero card */}
             <div
@@ -186,9 +186,9 @@ export default function Contact() {
 
           {/* Right: Contact Form */}
           <motion.div
-            initial={{ opacity: 0, x: 40 }}
+            initial={{ opacity: 0, x: 60 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.7, delay: 0.2 }}
+            transition={{ duration: 0.75, delay: 0.2, ease: 'easeOut' }}
           >
             <div className="electric-card-glow relative overflow-hidden p-8 rounded-2xl" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
               {/* Form Electric Laser Top Bar */}

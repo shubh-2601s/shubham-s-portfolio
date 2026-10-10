@@ -578,3 +578,42 @@
   border-color: rgba(6, 214, 160, 0.4) !important;
 }
 
+/* ── Continuous Sliding Animations (Left to Right & Right to Left) ── */
+@keyframes slide-to-left {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes slide-to-right {
+  0% {
+    transform: translate3d(-50%, 0, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.animate-slide-left {
+  display: flex;
+  width: max-content;
+  animation: slide-to-left 35s linear infinite;
+  will-change: transform;
+}
+
+.animate-slide-right {
+  display: flex;
+  width: max-content;
+  animation: slide-to-right 35s linear infinite;
+  will-change: transform;
+}
+
+.marquee-wrapper:hover .animate-slide-left,
+.marquee-wrapper:hover .animate-slide-right {
+  animation-play-state: paused;
+}
+
+

@@ -71,14 +71,16 @@ export default function Education() {
           </motion.div>
 
           <div className="space-y-8">
-            {education.map((edu, idx) => (
-              <motion.div
-                key={edu.degree}
-                initial={{ opacity: 0, x: -40 }}
-                animate={inView ? { opacity: 1, x: 0 } : {}}
-                transition={{ duration: 0.6, delay: idx * 0.15 }}
-                className="relative pl-20 sm:pl-28"
-              >
+            {education.map((edu, idx) => {
+              const isLeft = idx % 2 === 0;
+              return (
+                <motion.div
+                  key={edu.degree}
+                  initial={{ opacity: 0, x: isLeft ? -60 : 60 }}
+                  animate={inView ? { opacity: 1, x: 0 } : {}}
+                  transition={{ duration: 0.65, delay: idx * 0.12, ease: 'easeOut' }}
+                  className="relative pl-20 sm:pl-28"
+                >
                 {/* Timeline dot with pulsing photon halo */}
                 <div className="absolute left-5 sm:left-9 top-6 flex items-center justify-center z-10">
                   <motion.div
@@ -163,7 +165,8 @@ export default function Education() {
                   )}
                 </motion.div>
               </motion.div>
-            ))}
+            );
+          })}
           </div>
         </div>
       </div>

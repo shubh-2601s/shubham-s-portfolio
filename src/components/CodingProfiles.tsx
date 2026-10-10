@@ -47,12 +47,13 @@ export default function CodingProfiles() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {codingProfiles.map((profile, idx) => {
             const Icon = icons[profile.icon];
+            const isLeft = idx % 2 === 0;
             return (
               <motion.div
                 key={profile.name}
-                initial={{ opacity: 0, y: 30, scale: 0.96 }}
-                animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
-                transition={{ duration: 0.5, delay: idx * 0.12 }}
+                initial={{ opacity: 0, x: isLeft ? -50 : 50, scale: 0.96 }}
+                animate={inView ? { opacity: 1, x: 0, scale: 1 } : {}}
+                transition={{ duration: 0.55, delay: idx * 0.1, ease: 'easeOut' }}
                 whileHover={{ y: -6 }}
                 className="electric-card-glow relative overflow-hidden p-6 rounded-2xl transition-all duration-300 group"
                 style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}

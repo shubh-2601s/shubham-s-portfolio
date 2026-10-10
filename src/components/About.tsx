@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { motion, useInView, type Variants } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import { Terminal, User } from 'lucide-react';
 import { personalInfo, stats } from '../data/resumeData';
 import HackerTerminal from './HackerTerminal';
@@ -30,16 +30,6 @@ function AnimatedCounter({ value, suffix = '' }: { value: string; suffix: string
   const isDecimal = value.includes('.');
   return <span ref={ref}>{isDecimal ? count.toFixed(2) : count}{suffix}</span>;
 }
-
-const containerVariants: Variants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.1 } },
-};
-
-const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
-};
 
 export default function About() {
   const [viewMode, setViewMode] = useState<'terminal' | 'card'>('terminal');
@@ -74,9 +64,9 @@ export default function About() {
 
           {/* Left — Bio text */}
           <motion.div
-            initial={{ opacity: 0, x: -40 }}
+            initial={{ opacity: 0, x: -60 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.7, delay: 0.1 }}
+            transition={{ duration: 0.75, delay: 0.1, ease: 'easeOut' }}
           >
             <div className="space-y-5 text-base leading-relaxed mb-8" style={{ color: 'var(--text-secondary)' }}>
               <p>
@@ -132,9 +122,9 @@ export default function About() {
 
           {/* Right — Interactive Terminal or Card */}
           <motion.div
-            initial={{ opacity: 0, x: 40 }}
+            initial={{ opacity: 0, x: 60 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.7, delay: 0.2 }}
+            transition={{ duration: 0.75, delay: 0.2, ease: 'easeOut' }}
             className="space-y-4"
           >
             {/* View Switcher Bar */}
@@ -222,36 +212,36 @@ export default function About() {
         </div>
 
         {/* ── Animated Stats Row ── */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate={inView ? 'visible' : 'hidden'}
-          className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4"
-        >
-          {stats.map((stat) => (
-            <motion.div
-              key={stat.label}
-              variants={itemVariants}
-              whileHover={{ y: -6, scale: 1.04, boxShadow: `0 0 20px ${stat.color}35` }}
-              className="p-5 rounded-2xl text-center card-hover relative overflow-hidden group"
-              style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}
-            >
-              {/* Top Electric Laser Line */}
-              <div
-                className="absolute top-0 left-0 right-0 h-[2px] opacity-70 group-hover:opacity-100 transition-opacity"
-                style={{
-                  background: `linear-gradient(90deg, transparent, ${stat.color}, #ffffff, ${stat.color}, transparent)`,
-                  boxShadow: `0 0 10px ${stat.color}`,
-                }}
-              />
-              <div className="text-3xl mb-2">{stat.icon}</div>
-              <div className="text-2xl font-black" style={{ color: stat.color }}>
-                <AnimatedCounter value={stat.value} suffix={stat.suffix} />
-              </div>
-              <div className="text-xs font-medium mt-1" style={{ color: 'var(--text-muted)' }}>{stat.label}</div>
-            </motion.div>
-          ))}
-        </motion.div>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+          {stats.map((stat, idx) => {
+            const isLeft = idx % 2 === 0;
+            return (
+              <motion.div
+                key={stat.label}
+                initial={{ opacity: 0, x: isLeft ? -40 : 40 }}
+                animate={inView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.55, delay: idx * 0.08, ease: 'easeOut' }}
+                whileHover={{ y: -6, scale: 1.04, boxShadow: `0 0 20px ${stat.color}35` }}
+                className="p-5 rounded-2xl text-center card-hover relative overflow-hidden group"
+                style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}
+              >
+                {/* Top Electric Laser Line */}
+                <div
+                  className="absolute top-0 left-0 right-0 h-[2px] opacity-70 group-hover:opacity-100 transition-opacity"
+                  style={{
+                    background: `linear-gradient(90deg, transparent, ${stat.color}, #ffffff, ${stat.color}, transparent)`,
+                    boxShadow: `0 0 10px ${stat.color}`,
+                  }}
+                />
+                <div className="text-3xl mb-2">{stat.icon}</div>
+                <div className="text-2xl font-black" style={{ color: stat.color }}>
+                  <AnimatedCounter value={stat.value} suffix={stat.suffix} />
+                </div>
+                <div className="text-xs font-medium mt-1" style={{ color: 'var(--text-muted)' }}>{stat.label}</div>
+              </motion.div>
+            );
+          })}
+        </div>
       </div>
     </section>
   );

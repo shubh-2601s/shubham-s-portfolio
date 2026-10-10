@@ -162,12 +162,13 @@ export default function Skills() {
         <div className="space-y-8">
           {skillCategories.map((category, catIdx) => {
             const CatIcon = category.icon;
+            const isLeft = catIdx % 2 === 0;
             return (
               <motion.div
                 key={category.label}
-                initial={{ opacity: 0, y: 30 }}
-                animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: catIdx * 0.09 }}
+                initial={{ opacity: 0, x: isLeft ? -70 : 70 }}
+                animate={inView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.6, delay: catIdx * 0.08, ease: 'easeOut' }}
                 className="electric-card-glow p-6 rounded-2xl transition-all duration-300 relative overflow-hidden group"
                 style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}
               >
@@ -216,9 +217,9 @@ export default function Skills() {
 
         {/* Soft Skills */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.65, duration: 0.6 }}
+          initial={{ opacity: 0, x: -60 }}
+          animate={inView ? { opacity: 1, x: 0 } : {}}
+          transition={{ delay: 0.5, duration: 0.6, ease: 'easeOut' }}
           className="mt-8 p-6 rounded-2xl"
           style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}
         >
@@ -246,9 +247,9 @@ export default function Skills() {
 
         {/* All Technologies Pill Cloud */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.8, duration: 0.6 }}
+          initial={{ opacity: 0, x: 60 }}
+          animate={inView ? { opacity: 1, x: 0 } : {}}
+          transition={{ delay: 0.6, duration: 0.6, ease: 'easeOut' }}
           className="mt-8 p-8 rounded-2xl text-center relative overflow-hidden"
           style={{ background: 'linear-gradient(135deg, var(--bg-elevated), var(--bg-card))', border: '1px solid var(--border-accent)' }}
         >

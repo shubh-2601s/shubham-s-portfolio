@@ -64,9 +64,14 @@ function MarqueeProjectSection() {
           style={{ background: 'radial-gradient(ellipse 60% 40% at 80% 50%, rgba(6,214,160,0.08) 0%, transparent 70%)' }} />
 
         <div className="relative z-10 grid lg:grid-cols-12 gap-0">
-          {/* Left Visual Panel */}
-          <div className="lg:col-span-5 p-8 lg:p-10 flex flex-col justify-between"
-            style={{ borderRight: '1px solid var(--border-subtle)' }}>
+          {/* Left Visual Panel - Slides in from Left */}
+          <motion.div
+            initial={{ opacity: 0, x: -60 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.7, ease: 'easeOut' }}
+            className="lg:col-span-5 p-8 lg:p-10 flex flex-col justify-between"
+            style={{ borderRight: '1px solid var(--border-subtle)' }}
+          >
             {/* Logo + Title */}
             <div>
               <div className="flex items-center gap-3 mb-4">
@@ -121,10 +126,15 @@ function MarqueeProjectSection() {
                 <FaGithub size={16} /> GitHub Repo
               </motion.a>
             </div>
-          </div>
+          </motion.div>
 
-          {/* Right Content Panel */}
-          <div className="lg:col-span-7 p-8 lg:p-10 flex flex-col gap-8">
+          {/* Right Content Panel - Slides in from Right */}
+          <motion.div
+            initial={{ opacity: 0, x: 60 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.15, ease: 'easeOut' }}
+            className="lg:col-span-7 p-8 lg:p-10 flex flex-col gap-8"
+          >
             {/* Tech Stack */}
             <div>
               <h4 className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: 'var(--text-muted)' }}>
@@ -203,7 +213,7 @@ function MarqueeProjectSection() {
                 ))}
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </motion.div>
     </div>
@@ -233,12 +243,13 @@ function ProjectCard({ project, index, featured = false }: {
   const handleMouseLeave = () => { mouseX.set(0); mouseY.set(0); };
 
   if (featured) {
+    const isLeft = index % 2 === 0;
     return (
       <motion.div
         ref={cardRef}
-        initial={{ opacity: 0, y: 30 }}
-        animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.6, delay: index * 0.12 }}
+        initial={{ opacity: 0, x: isLeft ? -70 : 70 }}
+        animate={inView ? { opacity: 1, x: 0 } : {}}
+        transition={{ duration: 0.65, delay: index * 0.1, ease: 'easeOut' }}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
         style={{ rotateX, rotateY, perspective: 1000, transformStyle: 'preserve-3d' }}
@@ -381,12 +392,13 @@ function ProjectCard({ project, index, featured = false }: {
   }
 
   // Standard Card
+  const isLeft = index % 2 === 0;
   return (
     <motion.div
       ref={cardRef}
-      initial={{ opacity: 0, y: 30 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.5, delay: index * 0.08 }}
+      initial={{ opacity: 0, x: isLeft ? -50 : 50 }}
+      animate={inView ? { opacity: 1, x: 0 } : {}}
+      transition={{ duration: 0.55, delay: index * 0.08, ease: 'easeOut' }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={{ rotateX, rotateY, perspective: 1000, transformStyle: 'preserve-3d' }}

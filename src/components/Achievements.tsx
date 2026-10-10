@@ -37,16 +37,18 @@ export default function Achievements() {
 
         {/* Achievements Grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {achievements.map((achievement, idx) => (
-            <motion.div
-              key={achievement.id}
-              initial={{ opacity: 0, y: 30, scale: 0.95 }}
-              animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
-              transition={{ duration: 0.5, delay: idx * 0.07 }}
-              whileHover={{ y: -6, scale: 1.02 }}
-              className="relative p-6 rounded-2xl overflow-hidden group cursor-default transition-all duration-300"
-              style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}
-            >
+          {achievements.map((achievement, idx) => {
+            const isLeft = idx % 2 === 0;
+            return (
+              <motion.div
+                key={achievement.id}
+                initial={{ opacity: 0, x: isLeft ? -60 : 60, scale: 0.95 }}
+                animate={inView ? { opacity: 1, x: 0, scale: 1 } : {}}
+                transition={{ duration: 0.6, delay: idx * 0.08, ease: 'easeOut' }}
+                whileHover={{ y: -6, scale: 1.02 }}
+                className="relative p-6 rounded-2xl overflow-hidden group cursor-default transition-all duration-300"
+                style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}
+              >
               {/* Background accent on hover */}
               <div
                 className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
@@ -98,7 +100,8 @@ export default function Achievements() {
                 <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>{achievement.description}</p>
               </div>
             </motion.div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Summary banner */}
