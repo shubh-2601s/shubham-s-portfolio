@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://shubham-s-portfolio-three.vercel.app/sitemap.xml

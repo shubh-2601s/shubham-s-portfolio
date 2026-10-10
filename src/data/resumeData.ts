@@ -11,7 +11,7 @@ export const personalInfo = {
   location: "Chennai, Tamil Nadu",
   github: "https://github.com/shubh-2601s",
   linkedin: "https://linkedin.com/in/shubham-s-14ba6a283",
-  portfolio: "https://shubham-portfolio-inky-rho.vercel.app",
+  portfolio: "https://shubham-s-portfolio-three.vercel.app",
   leetcode: "https://leetcode.com/u/shubh_codess/",
   roles: [
     "Software Engineer",
